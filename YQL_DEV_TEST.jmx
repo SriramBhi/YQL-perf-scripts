@@ -7,14 +7,13 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YQL - Ingest - Dev">
         <stringProp name="TestPlan.comments">Load test for ingest endpoint</stringProp>
-        <intProp name="ThreadGroup.num_threads">1200</intProp>
+        <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
-        <longProp name="ThreadGroup.duration">600</longProp>
+        <longProp name="ThreadGroup.duration">1</longProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -24,7 +23,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="colendrequests" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="colendrequests">
           <stringProp name="TestPlan.comments">Ingest endpoint</stringProp>
           <stringProp name="HTTPSampler.domain">yubi-query-lake-dev.go-yubi.in</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
@@ -50,16 +49,15 @@
     &quot;datacontenttype&quot;: &quot;application/json&quot;,&#xd;
     &quot;event&quot;: &quot;colendrequestlogs&quot;,&#xd;
     &quot;data&quot;: {&#xd;
-    &quot;loggable_type&quot;: &quot;LoanRequest&quot;,&#xd;
-    &quot;loggable_id&quot;: &quot;12345&quot;,&#xd;
-    &quot;uri&quot;: &quot;/api/v1/loan/apply&quot;,&#xd;
-    &quot;req_body&quot;: &quot;{\&quot;loanAmount\&quot;: 10000, \&quot;term\&quot;: 12}&quot;,&#xd;
-    &quot;resp_body&quot;: &quot;{\&quot;status\&quot;: \&quot;approved\&quot;, \&quot;loanId\&quot;: \&quot;67890\&quot;}&quot;,&#xd;
-    &quot;status_code&quot;: &quot;200&quot;,&#xd;
-    &quot;req_method&quot;: &quot;POST&quot;,&#xd;
-    &quot;loan_id&quot;: &quot;67890&quot;&#xd;
+  &quot;loan_id&quot;: 12345,&#xd;
+  &quot;loan_status&quot;: &quot;approved&quot;,&#xd;
+  &quot;req_status&quot;: &quot;success&quot;,&#xd;
+  &quot;status_code&quot;: &quot;200&quot;,&#xd;
+  &quot;req_type&quot;: &quot;POST&quot;,&#xd;
+  &quot;failure_message&quot;: null,&#xd;
+  &quot;req_data&quot;: &quot;{\&quot;amount\&quot;: 10000}&quot;,&#xd;
+  &quot;resp_data&quot;: &quot;{\&quot;message\&quot;: \&quot;Loan approved successfully\&quot;}&quot;&#xd;
 }&#xd;
-&#xd;
 }</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
@@ -67,7 +65,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">content-type</stringProp>
