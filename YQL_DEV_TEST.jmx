@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="YQL - Perf Test">
+      <stringProp name="TestPlan.comments">This test scenario is to test ingest endpoint of YQL using different topic ingestion</stringProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YQL - Ingest - Dev">
+        <stringProp name="TestPlan.comments">Load test for ingest endpoint</stringProp>
+        <intProp name="ThreadGroup.num_threads">500</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <longProp name="ThreadGroup.duration">600</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="colendrequests">
+          <stringProp name="TestPlan.comments">Ingest endpoint</stringProp>
+          <stringProp name="HTTPSampler.domain">yubi-query-lake-dev.go-yubi.in</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/ingest</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;version&quot;: &quot;0.1.1&quot;,&#xd;
+    &quot;specversion&quot;: &quot;1.0&quot;,&#xd;
+    &quot;id&quot;: &quot;98493fqfwef&quot;,&#xd;
+    &quot;source&quot;: &quot;/yubi/finfort&quot;,&#xd;
+    &quot;type&quot;: &quot;com.example.storage.fileCreated&quot;,&#xd;
+    &quot;subject&quot;: &quot;files/example.txt&quot;,&#xd;
+    &quot;time&quot;: &quot;2024-03-24T04:27:59Z&quot;,&#xd;
+    &quot;traceparent&quot;: &quot;user ${__UUID()}&quot;,&#xd;
+    &quot;tracestate&quot;: &quot;YLF compatible span-id&quot;,&#xd;
+    &quot;datacontenttype&quot;: &quot;application/json&quot;,&#xd;
+    &quot;event&quot;: &quot;colendrequestlogs&quot;,&#xd;
+    &quot;data&quot;: {&#xd;
+    &quot;loggable_type&quot;: &quot;LoanRequest&quot;,&#xd;
+    &quot;loggable_id&quot;: &quot;12345&quot;,&#xd;
+    &quot;uri&quot;: &quot;/api/v1/loan/apply&quot;,&#xd;
+    &quot;req_body&quot;: &quot;{\&quot;loanAmount\&quot;: 10000, \&quot;term\&quot;: 12}&quot;,&#xd;
+    &quot;resp_body&quot;: &quot;{\&quot;status\&quot;: \&quot;approved\&quot;, \&quot;loanId\&quot;: \&quot;67890\&quot;}&quot;,&#xd;
+    &quot;status_code&quot;: &quot;200&quot;,&#xd;
+    &quot;req_method&quot;: &quot;POST&quot;,&#xd;
+    &quot;loan_id&quot;: &quot;67890&quot;&#xd;
+}&#xd;
+&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/cloudevents+json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="engineers" enabled="false">
+          <stringProp name="TestPlan.comments">Ingest endpoint</stringProp>
+          <stringProp name="HTTPSampler.domain">yubi-query-lake-dev.go-yubi.in</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/ingest</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;version&quot;: &quot;0.1&quot;,&#xd;
+    &quot;specversion&quot;: &quot;1.0&quot;,&#xd;
+    &quot;id&quot;: &quot;an unique id for the given source&quot;,&#xd;
+    &quot;source&quot;: &quot;/yubi/scf-integration&quot;,&#xd;
+    &quot;type&quot;: &quot;com.example.storage.fileCreated&quot;,&#xd;
+    &quot;subject&quot;: &quot;files/example.txt&quot;,&#xd;
+    &quot;time&quot;: &quot;2024-03-24T04:27:59Z&quot;,&#xd;
+    &quot;traceparent&quot;: &quot;user ${__UUID()}&quot;,&#xd;
+    &quot;tracestate&quot;: &quot;YLF compatible span-id&quot;,&#xd;
+    &quot;datacontenttype&quot;: &quot;application/json&quot;,&#xd;
+    &quot;event&quot;: &quot;engineers&quot;,&#xd;
+    &quot;data&quot;: {&#xd;
+            &quot;address&quot;: {&#xd;
+                &quot;country&quot;: &quot;Carmenland&quot;,&#xd;
+                &quot;city&quot;: &quot;East Brian&quot;,&#xd;
+                &quot;street&quot;: &quot;North Lisa&quot;,&#xd;
+                &quot;state&quot;: &quot;East Colton&quot;,&#xd;
+                &quot;zip_code&quot;: &quot;South Anthonyshire&quot;&#xd;
+            },&#xd;
+            &quot;manager&quot;: {&#xd;
+                &quot;phone&quot;: &quot;490.583.0586x73805&quot;,&#xd;
+                &quot;last_name&quot;: &quot;Monica Jones&quot;,&#xd;
+                &quot;first_name&quot;: &quot;Sandra Martin&quot;,&#xd;
+                &quot;email&quot;: &quot;stevenlewis@example.com&quot;&#xd;
+            },&#xd;
+            &quot;phone&quot;: &quot;+1-331-683-8151x914&quot;,&#xd;
+            &quot;employee_id&quot;: 89040,&#xd;
+            &quot;position_hired&quot;: &quot;purpose&quot;,&#xd;
+            &quot;last_name&quot;: &quot;once&quot;,&#xd;
+            &quot;hire_date&quot;: &quot;2024-06-03&quot;,&#xd;
+            &quot;department&quot;: &quot;best&quot;,&#xd;
+            &quot;salary&quot;: 71180,&#xd;
+            &quot;first_name&quot;: &quot;Tyler Vega&quot;,&#xd;
+            &quot;email&quot;: &quot;lisa11@example.com&quot;&#xd;
+            }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/cloudevents+json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResultCollector guiclass="StatGraphVisualizer" testclass="ResultCollector" testname="Aggregate Graph" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="apigateway" enabled="false">
+          <stringProp name="TestPlan.comments">Ingest endpoint</stringProp>
+          <stringProp name="HTTPSampler.domain">yubi-query-lake-dev.go-yubi.in</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/ingest</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;version&quot;: &quot;0.1&quot;,&#xd;
+    &quot;specversion&quot;: &quot;1.0&quot;,&#xd;
+    &quot;id&quot;: &quot;an unique id for the given source&quot;,&#xd;
+    &quot;source&quot;: &quot;/yubi/scf-integration&quot;,&#xd;
+    &quot;type&quot;: &quot;com.example.storage.fileCreated&quot;,&#xd;
+    &quot;subject&quot;: &quot;files/example.txt&quot;,&#xd;
+    &quot;time&quot;: &quot;2024-03-24T04:27:59Z&quot;,&#xd;
+    &quot;traceparent&quot;: &quot;user ${__UUID()}&quot;,&#xd;
+    &quot;tracestate&quot;: &quot;YLF compatible span-id&quot;,&#xd;
+    &quot;datacontenttype&quot;: &quot;application/json&quot;,&#xd;
+    &quot;event&quot;: &quot;apigateway&quot;,&#xd;
+    &quot;data&quot;: {&#xd;
+  &quot;id&quot;: &quot;abc123&quot;,&#xd;
+  &quot;tenantId&quot;: &quot;tenant001&quot;,&#xd;
+  &quot;requestMethod&quot;: &quot;GET&quot;&#xd;
+}&#xd;
+&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/cloudevents+json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="apigateway2" enabled="false">
+          <stringProp name="TestPlan.comments">Ingest endpoint</stringProp>
+          <stringProp name="HTTPSampler.domain">yubi-query-lake-dev.go-yubi.in</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/ingest</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;version&quot;: &quot;0.1&quot;,&#xd;
+    &quot;specversion&quot;: &quot;1.0&quot;,&#xd;
+    &quot;id&quot;: &quot;an unique id for the given source&quot;,&#xd;
+    &quot;source&quot;: &quot;/yubi/scf-integration&quot;,&#xd;
+    &quot;type&quot;: &quot;com.example.storage.fileCreated&quot;,&#xd;
+    &quot;subject&quot;: &quot;files/example.txt&quot;,&#xd;
+    &quot;time&quot;: &quot;2024-03-24T04:27:59Z&quot;,&#xd;
+    &quot;traceparent&quot;: &quot;YLF compatible trace-id&quot;,&#xd;
+    &quot;tracestate&quot;: &quot;YLF compatible span-id&quot;,&#xd;
+    &quot;datacontenttype&quot;: &quot;application/json&quot;,&#xd;
+    &quot;event&quot;: &quot;apigateway2&quot;,&#xd;
+    &quot;data&quot;: {&#xd;
+  &quot;id&quot;: &quot;abc123&quot;,&#xd;
+  &quot;tenantId&quot;: &quot;tenant001&quot;,&#xd;
+  &quot;requestMethod&quot;: &quot;GET&quot;&#xd;
+}&#xd;
+&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/cloudevents+json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
