@@ -12,7 +12,7 @@
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YQL - Ingest - Dev">
         <stringProp name="TestPlan.comments">Load test for ingest endpoint</stringProp>
-        <intProp name="ThreadGroup.num_threads">500</intProp>
+        <intProp name="ThreadGroup.num_threads">1000</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <longProp name="ThreadGroup.duration">600</longProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
@@ -24,7 +24,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="colendrequests">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="colendrequests" enabled="true">
           <stringProp name="TestPlan.comments">Ingest endpoint</stringProp>
           <stringProp name="HTTPSampler.domain">yubi-query-lake-dev.go-yubi.in</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
