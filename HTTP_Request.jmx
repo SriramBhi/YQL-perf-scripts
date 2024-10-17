@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="YQL - Perf Test">
+      <stringProp name="TestPlan.comments">This test scenario is to test ingest endpoint of YQL using different topic ingestion</stringProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YQL - Ingest - Dev">
+        <stringProp name="TestPlan.comments">Load test for ingest endpoint</stringProp>
+        <intProp name="ThreadGroup.num_threads">600</intProp>
+        <intProp name="ThreadGroup.ramp_time">300</intProp>
+        <longProp name="ThreadGroup.duration">1200</longProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <intProp name="LoopController.loops">-1</intProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="colendingrequestlogs">
+          <stringProp name="TestPlan.comments">Ingest endpoint</stringProp>
+          <stringProp name="HTTPSampler.domain">yubi-query-lake-dev.go-yubi.in</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.path">/v1/ingest</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+  &quot;version&quot;: &quot;0.1&quot;,&#xd;
+  &quot;specversion&quot;: &quot;1.0&quot;,&#xd;
+  &quot;id&quot;: &quot;80d5e679-042f-4f5b-abab-414a7801bca3&quot;,&#xd;
+  &quot;source&quot;: &quot;/yubi/co-lending&quot;,&#xd;
+  &quot;type&quot;: &quot;com.example.storage.fileCreated&quot;,&#xd;
+  &quot;subject&quot;: &quot;Data for colendingrequestlogs&quot;,&#xd;
+  &quot;time&quot;: &quot;2024-10-08T09:41:23.552+00:00&quot;,&#xd;
+&quot;traceparent&quot;: &quot;user ${__UUID()}&quot;,&#xd;
+  &quot;tracestate&quot;: &quot;YLF compatible span-id&quot;,&#xd;
+  &quot;datacontenttype&quot;: &quot;application/json&quot;,&#xd;
+  &quot;event&quot;: &quot;colendingrequestlogs&quot;,&#xd;
+  &quot;data&quot;: {&#xd;
+    &quot;status_code&quot;: &quot;201&quot;,&#xd;
+    &quot;uri&quot;: &quot;/colending/clients/true/api/v2/loans&quot;,&#xd;
+    &quot;req_method&quot;: &quot;POST&quot;,&#xd;
+    &quot;req_body&quot;: &quot;{\&quot;client_customer_id\&quot;:\&quot;CA1728380477473CREDAVENUE_VCPL\&quot;,\&quot;customer_type\&quot;:\&quot;individual\&quot;,\&quot;customer_category\&quot;:\&quot;salaried\&quot;,\&quot;first_name\&quot;:\&quot;DODLA RAMA BHAVANI\&quot;,\&quot;gender\&quot;:\&quot;f\&quot;,\&quot;date_of_birth\&quot;:\&quot;1999-12-20\&quot;,\&quot;mobile_number\&quot;:7330745414,\&quot;current_address\&quot;:\&quot;9 220 1 REDDY NAGAR RANGASAMUDRAM PORUMAMILLA MANDALAM RANGA SAMUDRAM YSR AP\&quot;,\&quot;residence_type_current_address\&quot;:\&quot;owned\&quot;,\&quot;marital_status\&quot;:\&quot;unmarried\&quot;,\&quot;nationality\&quot;:\&quot;Indian\&quot;,\&quot;education_qualification\&quot;:\&quot;Bachelor&apos;&apos;s\&quot;,\&quot;net_monthly_income\&quot;:25215.0,\&quot;annual_income\&quot;:302580.0,\&quot;occupation\&quot;:\&quot;salaried\&quot;,\&quot;applicant_profession\&quot;:\&quot;EXECUTIVE\&quot;,\&quot;pan_number\&quot;:\&quot;HHSPD3287C\&quot;,\&quot;pan_number_link\&quot;:[\&quot;https://credavenue-prod.s3.ap-south-1.amazonaws.com/truecredits/kyc_document/79025562/79025562_PAN.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20241008T094118Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=7200&amp;X-Amz-Credential=AKIAJXEQWRMNW4N4LJYQ%2F20241008%2Fap-south-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=651e9a8d11d61f0eb10620211476b41c7b5f923120e834feae5313d1d7392b04\&quot;],\&quot;aadhar_number\&quot;:\&quot;XXXXXXXX1849\&quot;,\&quot;aadhar_number_link\&quot;:[\&quot;https://credavenue-prod.s3.ap-south-1.amazonaws.com/truecredits/kyc_document/79025562/79025562_Aadhaar.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20241008T094121Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=7200&amp;X-Amz-Credential=AKIAJXEQWRMNW4N4LJYQ%2F20241008%2Fap-south-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=c157667fcacfe542854f20d23897219a7b3456ae51b5c0d432fc73581759861c\&quot;],\&quot;aadhar_number_xml_link\&quot;:[\&quot;https://credavenue-prod.s3.ap-south-1.amazonaws.com/truecredits/kyc_document/79025562/79025562_Aadhaar.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20241008T094121Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=7200&amp;X-Amz-Credential=AKIAJXEQWRMNW4N4LJYQ%2F20241008%2Fap-south-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=c157667fcacfe542854f20d23897219a7b3456ae51b5c0d432fc73581759861c\&quot;],\&quot;employment_type\&quot;:\&quot;salaried\&quot;,\&quot;employment_details_designation\&quot;:\&quot;EXECUTIVE\&quot;,\&quot;bank_statement\&quot;:{\&quot;bank_statement_savings_account_12_months_link\&quot;:[\&quot;https://credavenue-prod.s3.ap-south-1.amazonaws.com/truecredits/bankstatement/79025562/79025562_Perfios.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20241008T094117Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=7200&amp;X-Amz-Credential=AKIAJXEQWRMNW4N4LJYQ%2F20241008%2Fap-south-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=e0deae552a593c29818abe37f7427990fd08ac63df60912589a68f94ff95fd75\&quot;]},\&quot;bank_disbursal_date\&quot;:\&quot;2024-10-07\&quot;,\&quot;name_of_bureau\&quot;:\&quot;CIBIL\&quot;,\&quot;bureau_score\&quot;:773,\&quot;total_existing_obligations\&quot;:8,\&quot;employment_details_name\&quot;:\&quot;Zetix health care \&quot;,\&quot;bureau_validity_date\&quot;:\&quot;2024-11-06\&quot;,\&quot;bureau_report_link\&quot;:[\&quot;NA\&quot;],\&quot;product_id\&quot;:\&quot;TRUE_CASH__VCP\&quot;,\&quot;client_loan_id\&quot;:\&quot;79025562\&quot;,\&quot;application_id\&quot;:\&quot;TBCL18-41007-9025562\&quot;,\&quot;category\&quot;:\&quot;unsecured\&quot;,\&quot;sub_category\&quot;:\&quot;fresh\&quot;,\&quot;disbursement_type\&quot;:\&quot;single\&quot;,\&quot;principal_amount\&quot;:10761.00,\&quot;interest_rate\&quot;:56.40,\&quot;tenure\&quot;:6,\&quot;tenure_frequency\&quot;:\&quot;monthly\&quot;,\&quot;purpose\&quot;:\&quot;FOR_MEDICAL\&quot;,\&quot;repayment_frequency\&quot;:\&quot;monthly\&quot;,\&quot;number_of_repayments\&quot;:6,\&quot;processing_fee\&quot;:761.00,\&quot;current_city\&quot;:\&quot;Cuddapah\&quot;,\&quot;current_district\&quot;:\&quot;KADAPA\&quot;,\&quot;current_state\&quot;:\&quot;ANDHRA_PRADESH\&quot;,\&quot;current_pincode\&quot;:516193,\&quot;permanent_address\&quot;:\&quot;9 220 1 REDDY NAGAR RANGASAMUDRAM PORUMAMILLA MANDALAM RANGA SAMUDRAM YSR AP\&quot;,\&quot;permanent_city\&quot;:\&quot;Cuddapah\&quot;,\&quot;permanent_state\&quot;:\&quot;ANDHRA_PRADESH\&quot;,\&quot;permanent_pincode\&quot;:516193,\&quot;email\&quot;:\&quot;bhavani20129@gmail.com\&quot;,\&quot;declared_income\&quot;:30000.0,\&quot;photo_link\&quot;:[\&quot;https://credavenue-prod.s3.ap-south-1.amazonaws.com/truecredits/agreement/79025562/79025562_Selfie.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20241008T094122Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=7200&amp;X-Amz-Credential=AKIAJXEQWRMNW4N4LJYQ%2F20241008%2Fap-south-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=90a14abf985af20c899d31efe614fd68aece8e7eb375ad47d1a1bdab117187f1\&quot;],\&quot;ckyc_id\&quot;:\&quot;10080076019528\&quot;,\&quot;total_number_of_loans\&quot;:13,\&quot;value_of_total_loans\&quot;:55000,\&quot;number_of_pl_enquiries_in_last_30days\&quot;:3,\&quot;number_of_enquiries_6months\&quot;:4,\&quot;number_of_30plus_dpd_in_last_3_months\&quot;:0,\&quot;number_of_60plus_dpd_in_last_6_months\&quot;:0,\&quot;bureau_reports\&quot;:{\&quot;number_of_writeoff_suitfiled_settled_in_the_last_24_months\&quot;:0,\&quot;assessed_obligations\&quot;:17140,\&quot;number_of_90+DPD_in_last_12_months\&quot;:0,\&quot;current_overdues_total\&quot;:0},\&quot;installment_frequency\&quot;:\&quot;M\&quot;,\&quot;interest_type\&quot;:\&quot;Fixed\&quot;,\&quot;partner_score_on_the_customer\&quot;:0.11,\&quot;foir\&quot;:76,\&quot;assesed_income\&quot;:25215.0,\&quot;borrower_detail\&quot;:{\&quot;moa_income\&quot;:\&quot;Bank Statement\&quot;,\&quot;moa_obligations\&quot;:\&quot;bureau\&quot;},\&quot;agreement_id\&quot;:\&quot;TRUE_CASH_VCP__2\&quot;,\&quot;apr\&quot;:99}&quot;,&#xd;
+    &quot;resp_body&quot;: &quot;{\&quot;client_loan_id\&quot;:\&quot;79025562\&quot;,\&quot;status\&quot;:\&quot;new\&quot;}&quot;,&#xd;
+    &quot;response_time&quot;: 0.121118529&#xd;
+  }&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/cloudevents+json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <ResultCollector guiclass="StatGraphVisualizer" testclass="ResultCollector" testname="Aggregate Graph" enabled="true">
+            <boolProp name="ResultCollector.error_logging">false</boolProp>
+            <objProp>
+              <name>saveConfig</name>
+              <value class="SampleSaveConfiguration">
+                <time>true</time>
+                <latency>true</latency>
+                <timestamp>true</timestamp>
+                <success>true</success>
+                <label>true</label>
+                <code>true</code>
+                <message>true</message>
+                <threadName>true</threadName>
+                <dataType>true</dataType>
+                <encoding>false</encoding>
+                <assertions>true</assertions>
+                <subresults>true</subresults>
+                <responseData>false</responseData>
+                <samplerData>false</samplerData>
+                <xml>false</xml>
+                <fieldNames>true</fieldNames>
+                <responseHeaders>false</responseHeaders>
+                <requestHeaders>false</requestHeaders>
+                <responseDataOnError>false</responseDataOnError>
+                <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                <assertionsResultsToSave>0</assertionsResultsToSave>
+                <bytes>true</bytes>
+                <sentBytes>true</sentBytes>
+                <url>true</url>
+                <threadCounts>true</threadCounts>
+                <idleTime>true</idleTime>
+                <connectTime>true</connectTime>
+              </value>
+            </objProp>
+            <stringProp name="filename"></stringProp>
+          </ResultCollector>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report - YQL Ingest">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
